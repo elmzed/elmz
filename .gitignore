@@ -1,28 +1,3 @@
-# Haskell
-dist
-cabal-dev
-*.o
-*.hi
-*.chi
-*.chs.h
-*.swp
-*.un~
-**/cache/**
-**/build/**
-store
-codestore
-tags
-unison-src/.loaded
-**cabal.sandbox.config
-.cabal-sandbox/**
-blockstore
-blockstore.leveldb
-
-# Stack
-.stack-work
-
-# Misc
-*~
-.DS_Store
-.virthualenv
-.vagrant
+elm-stuff/**
+Main.js
+index.html
