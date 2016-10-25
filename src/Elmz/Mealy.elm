@@ -1,7 +1,6 @@
-module Elmz.Mealy where
+module Elmz.Mealy exposing(..)
 
-import Debug
-import Elmz.Moore (Moore)
+import Elmz.Moore exposing (Moore)
 import Elmz.Moore as M
 import Maybe
 
@@ -14,7 +13,7 @@ both : Mealy a1 b1 -> Mealy a2 b2 -> Mealy (a1,a2) (b1,b2)
 both m1 m2 = first m1 `pipe` second m2
 
 changesBy : (a -> a -> Maybe b) -> Mealy a (Maybe b)
-changesBy f = M.feed (M.changesBy f)
+changesBy f = flip M.feed (M.changesBy f)
 
 delay : a -> Mealy a a
 delay a0 a = moore a0 (delay a)
@@ -29,7 +28,7 @@ focus f b m a =
 first : Mealy a b -> Mealy (a,c) (b,c)
 first m (a,c) =
   let m' = m a
-  in moore (M.extract m', c) (first (M.feed m'))
+  in moore (M.extract m', c) (first (flip M.feed m'))
 
 lift : (a -> b) -> Mealy a b
 lift f a = moore (f a) (lift f)
@@ -43,7 +42,7 @@ map f m a = M.map f (m a)
 map2 : (a -> b -> c) -> Mealy i a -> Mealy i b -> Mealy i c
 map2 f a b i =
   let (ar,br) = (a i, b i)
-  in moore (f (M.extract ar) (M.extract br)) (map2 f (M.feed ar) (M.feed br))
+  in moore (f (M.extract ar) (M.extract br)) (map2 f (flip M.feed ar) (flip M.feed br))
 
 mealy : (i -> Moore i o) -> Mealy i o
 mealy = identity
@@ -73,7 +72,7 @@ pipe2 i c =
 second : Mealy a b -> Mealy (c,a) (c,b)
 second m (c,a) =
   let m' = m a
-  in moore (c, M.extract m') (second (M.feed m'))
+  in moore (c, M.extract m') (second (flip M.feed m'))
 
 split : Mealy a b -> Mealy a (b,b)
 split = map (\b -> (b,b))

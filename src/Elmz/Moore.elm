@@ -1,7 +1,5 @@
-module Elmz.Moore where
+module Elmz.Moore exposing (..)
 
-import Signal
-import Signal exposing ((<~), (~), foldp, Signal)
 import Maybe
 
 type Moore i o = Moore o (i -> Maybe (Moore i o))
@@ -98,10 +96,10 @@ split = map (\b -> (b,b))
 step : i -> Moore i o -> Maybe (Moore i o)
 step i (Moore _ k) = k i
 
-transform : Moore i o -> Signal i -> Signal o
-transform m i =
-  let s i m = feed i m
-  in extract <~ foldp s m i
+--transform : Moore i o -> Signal i -> Signal o
+--transform m i =
+--  let s i m = feed i m
+--  in extract <~ foldp s m i
 
 unit : o -> Moore i o
 unit o = Moore o (always Nothing)

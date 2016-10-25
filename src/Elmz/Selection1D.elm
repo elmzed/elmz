@@ -1,17 +1,15 @@
+module Elmz.Selection1D exposing (..)
 {-| One-dimensional selection model. -}
-module Elmz.Selection1D where
 
 import Elmz.Layout exposing (Containment, Layout, Region)
 import Elmz.Layout as Layout
 import Elmz.Movement as Movement
 import Elmz.Moore exposing (Moore(..))
 import Elmz.Moore as Moore
-import Elmz.Signal as Signals
-import Graphics.Element exposing (Element)
-import Graphics.Element as Element
+import Element exposing (Element)
+import Element as Element
 import Maybe
 import Result
-import Signal
 import List
 
 type Event v

@@ -1,4 +1,4 @@
-module Elmz.Matcher where
+module Elmz.Matcher exposing (..)
 
 import Elmz.Moore as Moore
 import Elmz.Moore exposing (Moore(..))
@@ -21,7 +21,7 @@ model matches =
     empty e = Just <| case e of
       Query q ->
         let o = { matches = List.filter (matches q.string) q.values, query = Just q.string }
-        in Moore.spike o { o | query <- Nothing } (waiting q)
+        in Moore.spike o { o | query = Nothing } (waiting q)
       Results r -> Moore { matches = r.values, query = Nothing } (hasresults r)
 
     waiting q e = Just <| case e of

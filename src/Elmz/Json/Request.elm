@@ -1,14 +1,12 @@
-module Elmz.Json.Request where
+module Elmz.Json.Request exposing (..)
 
 import Elmz.Json.Encoder exposing (Encoder)
 import Elmz.Json.Encoder as Encoder
 import Elmz.Json.Decoder exposing (Decoder)
 import Elmz.Json.Decoder as Decoder
-import Elmz.Signal as Signals
 import Http
 import Maybe
 import Result
-import Signal
 import Task exposing (Task)
 import Time
 
@@ -28,10 +26,10 @@ post host path e d =
   in Request out d
 
 contramap : (a0 -> a) -> Request a b -> Request a0 b
-contramap f r = { r | encoder <- r.encoder << f }
+contramap f r = { r | encoder = r.encoder << f }
 
 map : (b -> c) -> Request a b -> Request a c
-map f r = { r | decoder <- Decoder.map f r.decoder }
+map f r = { r | decoder = Decoder.map f r.decoder }
 
 to : Request a b -> (b -> c) -> Request a c
 to r f = map f r
@@ -41,10 +39,10 @@ sendPost r a =
   let out = r.encoder a
   in Http.post r.decoder out.url (Http.string out.body)
 
-posts : Request a b -> Signal (Maybe a) -> Signal (Task Http.Error (Maybe b))
-posts r a =
-  let
-    f a = case a of
-      Nothing -> Task.succeed Nothing
-      Just a -> Task.map Just (sendPost r a)
-  in Signal.map f a
+--posts : Request a b -> Signal (Maybe a) -> Signal (Task Http.Error (Maybe b))
+--posts r a =
+--  let
+--    f a = case a of
+--      Nothing -> Task.succeed Nothing
+--      Just a -> Task.map Just (sendPost r a)
+--  in Signal.map f a
