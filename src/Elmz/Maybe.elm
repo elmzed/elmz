@@ -46,3 +46,10 @@ sequence ms =
 
 traverse : (a -> Maybe b) -> List a -> Maybe (List b)
 traverse f a = sequence (List.map f a)
+
+combine : (a -> a -> a) -> Maybe a -> Maybe a -> Maybe a
+combine f x y = case (x, y) of
+  (Nothing, Nothing) -> Nothing
+  (Nothing, _) -> y
+  (_, Nothing) -> x
+  (Just x, Just y) -> Just (f x y)
